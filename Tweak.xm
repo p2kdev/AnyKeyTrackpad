@@ -1,7 +1,7 @@
-#define DLOG_OSLOG 1
+//#define DLOG_OSLOG 1
 #define PREF_PATH @"/var/mobile/Library/Preferences/jp.r-plus.AnyKeyTrackpad.plist"
-#define LOG_PATH @"/tmp/zanykey.log"
-#import <DLog.h>
+//#define LOG_PATH @"/tmp/zanykey.log"
+//#import <DLog.h>
 #import <UIKit/UIKit.h>
 
 static BOOL allowVariantKeys = NO;
@@ -38,7 +38,7 @@ static BOOL ContainsStringAny(NSString *str, NSArray<NSString *> *any)
 {
     NSMutableArray<NSValue *> *regions = [NSMutableArray array];
     NSArray<UIKBTree *> *keys = self.keyplane.cache[@"keys"];
-    DLog(@"%@", keys);
+    //DLog(@"%@", keys);
     for (UIKBTree *k in keys) {
         if (ContainsStringAny(k.name, @[
                     @"Shift-Key",
@@ -69,29 +69,29 @@ static BOOL ContainsStringAny(NSString *str, NSArray<NSString *> *any)
 %end
 // }}}
 // {{{ pref
-static void LoadSettings()
-{
-    NSDictionary *dict;
-    CFStringRef appID = CFSTR("jp.r-plus.AnyKeyTrackpad");
-    CFArrayRef keyList = CFPreferencesCopyKeyList(appID, kCFPreferencesCurrentUser, kCFPreferencesAnyHost);
-    if (keyList) {
-        dict = [(NSDictionary *)CFPreferencesCopyMultiple(keyList, appID, kCFPreferencesCurrentUser, kCFPreferencesAnyHost) autorelease];
-        CFRelease(keyList);
-    } else {
-        dict = [NSDictionary dictionaryWithContentsOfFile:PREF_PATH];
-    }
-    id variantPref = [dict objectForKey:@"AllowVariantKeys"];
-    allowVariantKeys = variantPref ? [variantPref boolValue] : NO;
-    id tenPref = [dict objectForKey:@"AllowTenKeys"];
-    allowTenKeys = tenPref ? [tenPref boolValue] : YES;
-    id emojiPref = [dict objectForKey:@"AllowEmojiKeys"];
-    allowEmojiKeys = emojiPref ? [emojiPref boolValue] : NO;
-}
+// static void LoadSettings()
+// {
+//     NSDictionary *dict;
+//     CFStringRef appID = CFSTR("jp.r-plus.AnyKeyTrackpad");
+//     CFArrayRef keyList = CFPreferencesCopyKeyList(appID, kCFPreferencesCurrentUser, kCFPreferencesAnyHost);
+//     if (keyList) {
+//         dict = [(NSDictionary *)CFPreferencesCopyMultiple(keyList, appID, kCFPreferencesCurrentUser, kCFPreferencesAnyHost) autorelease];
+//         CFRelease(keyList);
+//     } else {
+//         dict = [NSDictionary dictionaryWithContentsOfFile:PREF_PATH];
+//     }
+//     id variantPref = [dict objectForKey:@"AllowVariantKeys"];
+//     allowVariantKeys = variantPref ? [variantPref boolValue] : NO;
+//     id tenPref = [dict objectForKey:@"AllowTenKeys"];
+//     allowTenKeys = tenPref ? [tenPref boolValue] : YES;
+//     id emojiPref = [dict objectForKey:@"AllowEmojiKeys"];
+//     allowEmojiKeys = emojiPref ? [emojiPref boolValue] : NO;
+// }
 
-static void PostNotification(CFNotificationCenterRef center, void *observer, CFStringRef name, const void *object, CFDictionaryRef userInfo)
-{
-    LoadSettings();
-}
+// static void PostNotification(CFNotificationCenterRef center, void *observer, CFStringRef name, const void *object, CFDictionaryRef userInfo)
+// {
+//     LoadSettings();
+// }
 
 %ctor
 {
@@ -119,8 +119,8 @@ static void PostNotification(CFNotificationCenterRef center, void *observer, CFS
         }
         if (!shouldLoad) return;
 
-        CFNotificationCenterAddObserver(CFNotificationCenterGetDarwinNotifyCenter(), NULL, PostNotification, CFSTR("jp.r-plus.anykeytrackpad.settingschanged"), NULL, CFNotificationSuspensionBehaviorCoalesce);
-        LoadSettings();
+        //CFNotificationCenterAddObserver(CFNotificationCenterGetDarwinNotifyCenter(), NULL, PostNotification, CFSTR("jp.r-plus.anykeytrackpad.settingschanged"), NULL, CFNotificationSuspensionBehaviorCoalesce);
+        //LoadSettings();
         %init;
     }
 }
