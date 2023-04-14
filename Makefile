@@ -1,5 +1,12 @@
-export THEOS_PACKAGE_SCHEME=rootless
-export TARGET = iphone:clang:13.7:13.0
+ifeq ($(ROOTLESS),1)
+	THEOS_PACKAGE_SCHEME = rootless
+endif
+
+ifeq ($(THEOS_PACKAGE_SCHEME),rootless)
+	TARGET = iphone:clang::15.0
+else
+	TARGET = iphone:clang::12.0
+endif
 
 export ARCHS = arm64 arm64e
 
